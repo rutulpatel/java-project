@@ -9,34 +9,52 @@ pipeline {
     }
 
     stages {
-        stage('git information') {
+        stage('Git Info') {
             agent any
             steps {
                 echo "My Branch name: ${env.BRANCH_NAME}"
                 echo "My Commit Number: ${env.GIT_COMMIT}"
             }
         }
-        stage('build') {
-            agent any
-            steps {
-                sh 'ant -f build.xml -v'
+        stage('Unit Tests') {
+            agent {
+                label 'CentOS'
             }
-        }
-        stage('test') {
-            agent any
             steps {
                 sh 'make check || true'
                 sh 'ant -f test.xml -v'
                 junit 'reports/result.xml'
             }
         }
+        stage('Build') {
+            agent {
+                label 'Apache'
+            }
+            steps {
+                sh 'ant -f build.xml -v'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'dist/rectangle*.jar', fingerprint: true
+                }
+            }
+        }
+        stage('Deploy') {
+            agent {
+                label 'Apache'
+            }
+            steps {
+                sh "if ![ -d '/var/www/html/rectangles/all/${env.BRANCH_NAME}' ]; then mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}; fi"
+                sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+            }
+        }
+
 
     }
 
-
     post {
         always {
-            archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+            echo "end of file"
         }
     }
 }
