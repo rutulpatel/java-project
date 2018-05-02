@@ -13,7 +13,8 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'ant -f test.xml -v'
+                sh 'make check || true'
+                junit 'test.xml'
             }
         }
 
