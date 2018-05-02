@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Unit Tests') {
             agent {
-                label 'CentOS'
+                label 'centos'
             }
             steps {
                 sh 'make check || true'
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Build') {
             agent {
-                label 'Apache'
+                label 'apache'
             }
             steps {
                 sh 'ant -f build.xml -v'
@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Deploy') {
             agent {
-                label 'Apache'
+                label 'apache'
             }
             steps {
                 sh "if ![ -d '/var/www/html/rectangles/all/${env.BRANCH_NAME}' ]; then mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}; fi"
