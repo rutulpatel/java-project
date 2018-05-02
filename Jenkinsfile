@@ -2,6 +2,7 @@ pipeline {
     agent none
     environment {
         MAJOR_VERSION = 1
+        BRANCH_NAME = 'development'
     }
 
     options {
