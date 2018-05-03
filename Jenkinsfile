@@ -1,7 +1,7 @@
 pipeline {
     agent none
     environment {
-        MAJOR_VERSION = 1
+        MAJOR_VERSION = 1.0
         BRANCH_NAME = 'development'
     }
 
@@ -37,6 +37,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'dist/rectangle*.jar', fingerprint: true
+                    nexusArtifactUploader artifacts: [[artifactId: 'rectangle', classifier: 'debug', file: 'rectangle.jar', type: 'jar']], credentialsId: '11644d98-360a-4ece-a15c-529beb13c90c', groupId: 'com', nexusUrl: 'rutulpatel2.mylabserver.com:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'http://rutulpatel2.mylabserver.com:8081/repository/snapshots/', version: '1.0'
                 }
             }
         }
