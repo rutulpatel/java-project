@@ -37,7 +37,8 @@ pipeline {
             post {
                 success {
                     archiveArtifacts artifacts: 'dist/rectangle*.jar', fingerprint: true
-                    nexusArtifactUploader artifacts: [[artifactId: 'rectangle', classifier: 'debug', file: "dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar", type: 'jar']], credentialsId: '11644d98-360a-4ece-a15c-529beb13c90c', groupId: 'com', nexusUrl: 'rutulpatel2.mylabserver.com:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'snapshots', version: '1.0'
+                    nexusArtifactUploader artifacts: [[artifactId: 'rectangle', classifier: 'debug', file: "dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar", type: 'jar']], credentialsId: '2f9d54f2-a102-48f3-8e3f-462816da6ffd', groupId: 'com', nexusUrl: 'rutulpatel2.mylabserver.com:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'snapshots', version: '1.0'
+
                 }
             }
         }
